@@ -47,7 +47,10 @@ export default function SignUp() {
       className="flex flex-col items-center justify-center
           min-h-screen py-2 bg-black"
     >
-      <h1 className="border rounded-full text-white p-4 mb-5">{loading? "processing" : "SignUp"}</h1>
+      <div className="border h-20 w-20 rounded-full p-2 mb-3 flex  justify-center items-center">
+      <h1 className="text-white ">{loading? "processing" : "SignUp"}</h1>
+      </div>
+      
       <hr />
       <hr />
 
@@ -57,7 +60,9 @@ export default function SignUp() {
 
       <input
         className="p-2 border border-gray-300 rounded-lg mb-4
-                    focus:outline-none focus:border-gray-600"
+                    focus:outline-none focus:border-gray-600
+                    hover:shadow-lg hover:transition delay-100 duration-500 
+               hover:shadow-orange-500 "
         type="text"
         id="username"
         value={user.username}
@@ -71,7 +76,9 @@ export default function SignUp() {
 
       <input
         className="p-2 border border-gray-300 rounded-lg mb-4
-              focus:outline-none focus:border-gray-600"
+              focus:outline-none focus:border-gray-600
+              hover:shadow-lg hover:transition delay-100 duration-500 
+               hover:shadow-orange-500 "
         type="text"
         id="email"
         value={user.email}
@@ -79,13 +86,16 @@ export default function SignUp() {
         placeholder="email"
       />
 
-      <label className="text-white" htmlFor="password">
+      <label className="text-white " htmlFor="password">
         password
       </label>
 
       <input
         className="p-2 border border-gray-300 rounded-lg mb-4
-              focus:outline-none focus:border-gray-600"
+              focus:outline-none focus:border-gray-600
+             hover:shadow-lg hover:transition delay-100 duration-500 
+               hover:shadow-orange-500 
+               "
         type="password"
         id="password"
         value={user.password}
@@ -96,7 +106,9 @@ export default function SignUp() {
       <button
        onClick={onSignUp}
         className=" p-2 border text-white border-gray-300 rounded-lg 
-                          mb-4 focus:outline-none focus:border-gray-600   "
+                          mb-4 focus:outline-none focus:border-gray-600
+                          hover:shadow-lg hover:transition delay-100 duration-500 
+               hover:shadow-orange-500 hover:w- "
       >
         {buttonDisabled? "No signUp" :"signUp" }
       </button>
