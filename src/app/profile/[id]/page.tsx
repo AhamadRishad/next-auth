@@ -12,10 +12,11 @@ export default function UserProfile({params}:any) {
         <hr />
         <hr />
         <hr />
-        <p className="text-4xl">Prodile page
+        <div className="text-4xl r">Prodile page
             <br />
-            user id: {params.id}
-        </p>
+            <h1 className="mt-5 p-5 border bg-orange-600 rounded-xl hover:bg-orange-700"> user id: {params.id}</h1>
+           
+        </div>
         
       </div>
     )
