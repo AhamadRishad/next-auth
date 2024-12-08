@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
 
+const cartItemSchema = new mongoose.Schema({
+    product: { type: mongoose.Schema.Types.ObjectId, ref: "cart", required: true },
+    quantity: { type: Number, default: 1 }
+  });
+
 const userSchema = new mongoose.Schema({
     username:{
         type:String,
@@ -24,6 +29,8 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
+    cart: [cartItemSchema],
+    
     forgotPasswordToken:String,
     forgotPasswordExpires:Date,
     verifyToken:String,

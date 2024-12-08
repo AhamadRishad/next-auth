@@ -3,6 +3,7 @@
 
 "use client";
 import axios from "axios";
+import Link from "next/link";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -42,6 +43,7 @@ export default function AddProducts() {
         formDataToSend.append("image", image);
       }
 
+
       const response = await axios.post("/api/admin/addproducts", formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data", // Ensure correct headers for file upload
@@ -59,6 +61,11 @@ export default function AddProducts() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-lg w-full bg-white p-8 shadow-md rounded-lg">
+       
+        <div className="flex items-end justify-end   ">
+        <Link href={"/admin/dashbord"}> <h1 className="hover:font-extrabold hover:text-red-600 cursor-pointer text-2xl	hover:border p-3 rounded border-red-900"> X</h1></Link>
+        </div>
+        
         <h2 className="text-center text-2xl font-bold text-gray-800 mb-6">
           Add a New Product
         </h2>
