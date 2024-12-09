@@ -6,6 +6,8 @@ import { connect } from "@/dbConfig/dbConfig";
 import Product from "@/models/product";
 import { v2 as cloudinary } from "cloudinary";
 import { Readable } from "stream";
+import jwt from "jsonwebtoken";
+import User from "@/models/userModerl";
 
 // Connect to MongoDB
 connect();
@@ -44,9 +46,48 @@ const uploadToCloudinary = (buffer: Buffer, folder: string): Promise<any> => {
     Readable.from(buffer).pipe(uploadStream); // Pipe the buffer to Cloudinary
   });
 };
+type DecodedToken = {
+  id: string;
+  username: string;
+  email: string;
+  iat: number;
+  exp: number;
+};
 
 export async function POST(request: NextRequest) {
   try {
+    const token = request.cookies.get("token");
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    } 
+
+    let decodedToken:DecodedToken
+    try {
+      decodedToken = jwt.verify(token.value, process.env.TOKEN_SECRET_KEY!) as DecodedToken;
+    } catch (error) {
+      return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+    }
+
+    console.log("decodedToken  = " ,decodedToken);
+
+    const {email} = decodedToken;
+    if(!email){
+      console.error("Email not found in token");
+      return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+    }
+    await connect();
+    const findUserByEmail = await User.findOne({ email });
+    if(!findUserByEmail) {
+      console.error("User not found in database");
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    console.log('findUserByEmail  = ', findUserByEmail);
+    const ProductRelation = findUserByEmail.cart;
+    console.log('ProductRelation  = ', ProductRelation);
+
+
+
     const formData = await request.formData();
     const productName = formData.get("productName") as string;
     const brandName = formData.get("brandName") as string;
@@ -74,15 +115,23 @@ export async function POST(request: NextRequest) {
       brandName,
       price: parseFloat(price), // Ensure numeric value for price
       description,
+      sellerId: findUserByEmail._id, // Use the user's ID for the seller field
       image: uploadResponse.secure_url, // Use Cloudinary URL for the image field
     });
 
-    await newProduct.save();
+    const newCreatedProduct = await newProduct.save();
 
+    ProductRelation.push({product:newCreatedProduct._id});
+    await findUserByEmail.save();
+    console.log('findUserByEmail after adding product = ', findUserByEmail);
+
+    
+
+   
     return NextResponse.json({
       message: "Product created successfully",
       success: true,
-      product: newProduct,
+      product: newCreatedProduct,
     });
   } catch (error: any) {
     console.error("Error creating product:", error.message);

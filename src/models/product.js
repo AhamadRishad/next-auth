@@ -1,6 +1,10 @@
 
 
 import mongoose from "mongoose";
+const cartItemSchema = new mongoose.Schema({
+  product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true }, // Corrected ref to "Product"
+  
+});
 
 const ProductSchema = new mongoose.Schema({
   productName: { type: String, required: true },
@@ -8,6 +12,7 @@ const ProductSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   description: { type: String, required: true },
   image: { type: String, required: true },
+  sellerId: { type: String, required: true},
   STATUS:{
     type:String,
     required:true,
@@ -15,7 +20,8 @@ const ProductSchema = new mongoose.Schema({
     default:"inactive",
 
 },
-  user : [{type : mongoose.Schema.Types.ObjectId, ref: "User"  }]
+  // user : [{type : mongoose.Schema.Types.ObjectId, ref: "User"  }]
+  cart: [cartItemSchema],
 });
 
 const Product =

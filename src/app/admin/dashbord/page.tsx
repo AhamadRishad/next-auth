@@ -45,7 +45,11 @@ export default function Dashboard() {
 
           </div>
         <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">Our Products</h1>
-        <Link href={"/admin/addproducts"}> <button className="bg-green-500 p-3 rounded text-white hover:bg-green-700">  Add Product</button></Link>
+        <div>
+        <Link href={"/admin/addproducts"}> <button className="bg-green-500 p-3 rounded text-white hover:bg-green-700">  Add Products</button></Link>
+        <Link href={"/admin/myproducts"}> <button className="bg-green-500 p-3 rounded text-white hover:bg-green-700">  My Products</button></Link>
+        </div>
+       
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

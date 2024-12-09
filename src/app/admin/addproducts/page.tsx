@@ -21,6 +21,7 @@ export default function AddProducts() {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<FormDataType>();
 
@@ -48,7 +49,9 @@ export default function AddProducts() {
         headers: {
           "Content-Type": "multipart/form-data", // Ensure correct headers for file upload
         },
+      
       });
+      reset() ;
 
       alert("Product added successfully!");
       console.log(response.data);
