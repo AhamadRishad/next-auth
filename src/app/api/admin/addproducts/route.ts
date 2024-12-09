@@ -33,7 +33,7 @@ async function streamToBuffer(readableStream: ReadableStream): Promise<Buffer> {
   return Buffer.concat(chunks);
 }
 
-
+ 
 // Upload file to Cloudinary
 const uploadToCloudinary = (buffer: Buffer, folder: string): Promise<any> => {
   return new Promise((resolve, reject) => {
